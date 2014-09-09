@@ -435,7 +435,7 @@ to case differences."
 ;; mac
 (when *is-a-mac*
   (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'meta)
+  (setq mac-option-modifier 'super)
   (setq default-input-method "MacOSX")
   (setq mouse-wheel-scroll-amount '(0.001))
   (when *is-cocoa-emacs*
@@ -446,6 +446,7 @@ to case differences."
     ;; (global-set-key (kbd "M-藣") 'ns-do-hide-others)
     (global-set-key (kbd "M-c") 'ns-copy-including-secondary)
     (global-set-key (kbd "M-v") 'ns-paste-secondary)))
+
 
 ;; To be able to M-x without meta
 ;; (global-set-key (kbd "C-x C-m") 'execute-extended-command)
