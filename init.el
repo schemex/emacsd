@@ -125,46 +125,47 @@ Selectively runs either `after-make-console-frame-hooks' or
                    'after-make-window-system-frame-hooks
                  'after-make-console-frame-hooks))))
 
-;;  在创建 frame 之后运行
-(add-hook 'after-make-frame-functions 'run-after-make-frame-hooks)
-(add-hook 'after-make-frame-functions
-          (lambda (frame)
-            (with-selected-frame frame
-              (unless window-system
-                (set-frame-parameter nil 'menu-bar-lines 0)))))
+;; ;;  在创建 frame 之后运行
+;; (add-hook 'after-make-frame-functions 'run-after-make-frame-hooks)
+;; (add-hook 'after-make-frame-functions
+;;           (lambda (frame)
+;;             (with-selected-frame frame
+;;               (unless window-system
+;;                 (set-frame-parameter nil 'menu-bar-lines 0)))))
 
 ;; mode-line modification
-(setq-default mode-line-format
-              (quote
-               (#("-" 0 1
-                  (help-echo
-                   "mouse-1: select window, mouse-2: delete others ..."))
-                mode-line-mule-info
-                mode-line-modified
-                mode-line-frame-identification
-                "    "
-                mode-line-buffer-identification
-                "    "
-                (:eval (substring
-                        (system-name) 0 (string-match "\\..+" (system-name))))
-                ":"
-                default-directory
-                #(" " 0 1
-                  (help-echo
-                   "mouse-1: select window, mouse-2: delete others ..."))
-                (line-number-mode " Line %l ")
-                global-mode-string
-                #("   %[(" 0 6
-                  (help-echo
-                   "mouse-1: select window, mouse-2: delete others ..."))
-                (:eval (mode-line-mode-name))
-                mode-line-process
-                minor-mode-alist
-                #("%n" 0 2 (help-echo "mouse-2: widen" local-map (keymap ...)))
-                ")%] "
-                (-3 . "%P")
-                ;;   "-%-"
-                )))
+(when nil
+  (setq-default mode-line-format
+                (quote
+                 (#("-" 0 1
+                    (help-echo
+                     "mouse-1: select window, mouse-2: delete others ..."))
+                  mode-line-mule-info
+                  mode-line-modified
+                  mode-line-frame-identification
+                  "    "
+                  mode-line-buffer-identification
+                  "    "
+                  (:eval (substring
+                          (system-name) 0 (string-match "\\..+" (system-name))))
+                  ":"
+                  default-directory
+                  #(" " 0 1
+                    (help-echo
+                     "mouse-1: select window, mouse-2: delete others ..."))
+                  (line-number-mode " Line %l ")
+                  global-mode-string
+                  #("   %[(" 0 6
+                    (help-echo
+                     "mouse-1: select window, mouse-2: delete others ..."))
+                  (:eval (mode-line-mode-name))
+                  mode-line-process
+                  minor-mode-alist
+                  #("%n" 0 2 (help-echo "mouse-2: widen" local-map (keymap ...)))
+                  ")%] "
+                  (-3 . "%P")
+                  ;;   "-%-"
+                  ))))
 
 ;;; ==================================================================
 ;;; prog setup
@@ -176,7 +177,7 @@ Selectively runs either `after-make-console-frame-hooks' or
 ;;; ==================================================================
 (eval-after-load 'dired
   '(progn
-     (require 'dired+)
+     ;; (require 'dired+)
      (setq dired-recursive-deletes 'top)
      (define-key dired-mode-map [mouse-2] 'dired-find-file)))
 
@@ -409,7 +410,7 @@ to case differences."
   (defun extract-host-and-port (url-string)
     (if (string-match "^[a-z]+://\\([^/]+\\)" url-string)
       (match-string 1 url-string)
-      url-string))
+      url-string)))
 
   ;; (defun assq-delete-all-with-test (k l &optional test)
   ;;   (let ((test-func (or test #'eq)))
@@ -482,7 +483,10 @@ to case differences."
 (global-unset-key [M-right])
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key "\M-x" 'smex)
+
+(when (fboundp 'smex)
+      (global-set-key "\M-x" 'smex))
+
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-M-/") 'my-expand-file-name-at-point)
 
